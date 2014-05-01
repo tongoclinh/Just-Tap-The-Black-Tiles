@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C407C059-0905-4E8E-8FF2-E56C1A6D9525</string>
+	<key>IDESourceControlProjectName</key>
+	<string>JustTapTheBlackTiles</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E7A31BDA-BF1B-407C-8741-F6B7AA07C02C</key>
+		<string>https://github.com/tongoclinh/Just-Tap-The-Black-Tiles.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>JustTapTheBlackTiles.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E7A31BDA-BF1B-407C-8741-F6B7AA07C02C</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/tongoclinh/Just-Tap-The-Black-Tiles.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E7A31BDA-BF1B-407C-8741-F6B7AA07C02C</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E7A31BDA-BF1B-407C-8741-F6B7AA07C02C</string>
+			<key>IDESourceControlWCCName</key>
+			<string>JustTapTheBlackTiles.spritebuilder</string>
+		</dict>
+	</array>
+</dict>
+</plist>
