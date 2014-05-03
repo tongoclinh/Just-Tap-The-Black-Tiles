@@ -26,15 +26,14 @@
 
 - (void)didLoadFromCCB
 {
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    [[[CCDirector sharedDirector] view] addGestureRecognizer:tapRecognizer];
     for (int row = 0; row < 5; row++) {
         tiles[row] = [self createBlackTileAtRow:row AndCol:arc4random_uniform(4)];
     }
-//    [self moveTile:tiles[0]];
     lastTile = 0;
     counter = 4;
     needUpdate = NO;
+    [self setUserInteractionEnabled:YES];
+    [[CCDirector sharedDirector] setAnimationInterval:1.0/120];
 }
 
 - (CCNodeColor *)createBlackTileAtRow:(int)row AndCol:(int)col
@@ -52,14 +51,15 @@
 
 - (void)moveTile:(CCNodeColor *)tile
 {
+    [tile setColor:[CCColor blackColor]];
     CGPoint destination = ccp([tile position].x, -heightUnit);
     CGFloat distance = ccpDistance([tile position], destination);
-    CGFloat speed = 200;
+    CGFloat speed = 350;
     CGFloat duration = distance / speed;
     CCActionMoveTo *move = [CCActionMoveTo actionWithDuration:duration position:ccp([tile position].x, -heightUnit)];
     CCActionCallBlock *complete = [CCActionCallBlock actionWithBlock:^{
         [tile setPosition:ccp(widthUnit * arc4random_uniform(4), tiles[counter].position.y + heightUnit)];
-        [tile setColor:[CCColor blackColor]];
+
         [self performSelector:@selector(moveTile:) withObject:tile];
         counter = (counter + 1) % 5;
         lastTile = (lastTile + 1) % 5;
@@ -81,7 +81,7 @@
             lowestIndex = i;
         }
     }
-    for (int i = 0; i < 5; i++) {
+    for (int i = 1; i < 5; i++) {
         int index = (lowestIndex + i) % 5;
         [tiles[index] setPosition:ccp([tiles[index] position].x, [tiles[lowestIndex] position].y + i * heightUnit)];
     }
@@ -92,7 +92,7 @@
     totalTime += delta;
     for (int i = 0; i < 5; i++) {
         CCActionSpeed * action = (CCActionSpeed *)[tiles[i] getActionByTag:474747];
-        [action setSpeed:1 + totalTime / 20];
+        [action setSpeed:1 + totalTime / 40];
     }
     
     if (!needUpdate)
@@ -103,33 +103,30 @@
 
 - (void)runAnimationOnTile:(CCNodeColor *)tile
 {
-    CCNodeColor *overlay = [CCNodeColor nodeWithColor:[CCColor grayColor] width:1 height:1];
-    [overlay setScale:0.1];
-    [overlay setContentSizeType:CCSizeTypeNormalized];
-    [overlay setPosition:ccp(0.5, 0.5)];
-    [overlay setPositionType:CCPositionTypeNormalized];
-    [overlay setAnchorPoint:ccp(0.5, 0.5)];
-    [tile addChild:overlay];
-    CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.1 scale:1];
-    CCActionCallBlock *cleanup = [CCActionCallBlock actionWithBlock:^{
-        [tile setColor:[CCColor grayColor]];
-        [overlay removeFromParentAndCleanup:YES];
-    }];
-    [overlay runAction:[CCActionSequence actions:scale, cleanup, nil]];
+//    CCNodeColor *overlay = [CCNodeColor nodeWithColor:[CCColor grayColor] width:1 height:1];
+//    [overlay setScale:0.1];
+//    [overlay setContentSizeType:CCSizeTypeNormalized];
+//    [overlay setPosition:ccp(0.5, 0.5)];
+//    [overlay setPositionType:CCPositionTypeNormalized];
+//    [overlay setAnchorPoint:ccp(0.5, 0.5)];
+//    [tile addChild:overlay];
+    CCActionTintTo *tint = [CCActionTintTo actionWithDuration:0.1 color:[CCColor grayColor]];
+//    CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.1 scale:1];
+//    CCActionCallBlock *cleanup = [CCActionCallBlock actionWithBlock:^{
+//        [tile setColor:[CCColor grayColor]];
+//        [overlay removeFromParentAndCleanup:YES];
+//    }];
+    //[overlay runAction:[CCActionSequence actions:tint, cleanup, nil]];
+    [tile runAction:tint];
 }
 
-- (void)handleTap:(UITapGestureRecognizer *)tap
+- (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
-//    CCLOG(@"Tapped");
-    CGPoint tapPoint = [tap locationInView:tap.view];
-    tapPoint.y = [[CCDirector sharedDirector] viewSize].height - tapPoint.y;
-    for (int i = 0; i < 5; i++) {
-        if (CGRectContainsPoint([tiles[i] boundingBox], tapPoint)) {
-            CCLOG(@"%@", NSStringFromCGRect([tiles[i] boundingBox]));
+    CGPoint touchPoint = touch.locationInWorld;
+    for (int i = 0; i < 5; i++)
+        if (CGRectContainsPoint(tiles[i].boundingBox, touchPoint)) {
             [self runAnimationOnTile:tiles[i]];
         }
-    }
-    CCLOG(@"%f, %f", tapPoint.x, tapPoint.y);
 }
 
 @end
